@@ -7,14 +7,9 @@ import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [ShortenerApplication.class])
-@ContextConfiguration
 class SpringContextTest extends Specification {
 
     @Autowired
     ApplicationContext applicationContext
 
-    def 'application context starts'() {
-        expect:
-        println applicationContext.displayName
-    }
 }
