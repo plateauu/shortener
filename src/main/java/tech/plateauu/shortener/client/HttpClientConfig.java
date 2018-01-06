@@ -1,10 +1,11 @@
-package tech.plateauu.shortener.Client;
+package tech.plateauu.shortener.client;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
+import tech.plateauu.shortener.client.HttpClient;
 
 @Configuration
 class HttpClientConfig {
@@ -18,7 +19,7 @@ class HttpClientConfig {
     @Bean
     public RestTemplate restTemplate(){
         RestTemplateBuilder template = new RestTemplateBuilder();
-        template.setConnectTimeout(1000);
+        template.setConnectTimeout(10000);
         return template.build();
     }
 

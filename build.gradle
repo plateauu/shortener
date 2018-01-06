@@ -11,6 +11,7 @@ buildscript {
 }
 
 apply plugin: 'groovy'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 group = 'tech.plateauu'
@@ -42,6 +43,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
     compile("com.google.guava:guava:${guavaVersion}")
+    compile('cglib:cglib:3.2.5')
 
     runtime('com.h2database:h2')
     compileOnly('org.projectlombok:lombok')

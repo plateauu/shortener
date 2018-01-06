@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(staticName = "of")
 public class Url extends BaseEntity {
 
     private String shortUrl;

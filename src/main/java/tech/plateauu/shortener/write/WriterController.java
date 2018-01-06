@@ -3,7 +3,7 @@ package tech.plateauu.shortener.write;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import tech.plateauu.shortener.Client.HttpClient;
+import tech.plateauu.shortener.client.HttpClient;
 import tech.plateauu.shortener.model.Url;
 import tech.plateauu.shortener.model.UrlRepository;
 
@@ -26,8 +26,16 @@ class WriterController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     Url addUrl(@RequestBody Url url) {
-        client.doShort(url.getLongUrl());
-        return repository.save(url);
+        String shortUrl = client.doShort(url.getLongUrl());
+        return repository.save(Url.of(shortUrl, url.getLongUrl()));
+    }
+
+    @GetMapping(path = "/check", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    Url checkUrl(@RequestParam(value = "url") String urlToExpand) {
+        String longUrl = client.expand(urlToExpand);
+        return Url.of(urlToExpand, longUrl);
     }
 
 }
