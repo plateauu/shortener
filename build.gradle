@@ -29,6 +29,8 @@ ext {
     groovyVersion = '2.4.12'
     guavaVersion = '23.4-jre'
     hibernateVersion = "5.2.4.Final"
+    vavrVersion = '0.9.0'
+    cglibVersion = '3.2.5'
 }
 
 dependencies {
@@ -39,11 +41,12 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
 //	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 //	compile('org.springframework.boot:spring-boot-starter-security')
-//	compile('com.vaadin:vaadin-spring-boot-starter')
+	compile('com.vaadin:vaadin-spring-boot-starter')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
     compile("com.google.guava:guava:${guavaVersion}")
-    compile('cglib:cglib:3.2.5')
+    compile("cglib:cglib:${cglibVersion}")
+    compile( "io.vavr:vavr:${vavrVersion}")
 
     runtime('com.h2database:h2')
     compileOnly('org.projectlombok:lombok')
@@ -55,12 +58,12 @@ dependencies {
 //	testCompile('org.springframework.security:spring-security-test')
 }
 
-//dependencyManagement {
-//    imports {
-//		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+dependencyManagement {
+    imports {
+		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
 //		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-//    }
-//}
+    }
+}
 
 compileJava.dependsOn(processResources)
 compileJava {
