@@ -1,4 +1,4 @@
-package tech.plateauu.shortener.view;
+package tech.plateauu.shortener.viewtest;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;

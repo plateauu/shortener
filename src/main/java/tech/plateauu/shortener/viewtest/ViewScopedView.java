@@ -1,4 +1,4 @@
-package tech.plateauu.shortener.view;
+package tech.plateauu.shortener.viewtest;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 @SpringView(name = ViewScopedView.VIEW_NAME)
 class ViewScopedView extends VerticalLayout implements View {
 
-    static final String VIEW_NAME = "view";
+    static final String VIEW_NAME = "viewtest";
 
     @Autowired
     private final Greeter greeter;
@@ -27,7 +27,7 @@ class ViewScopedView extends VerticalLayout implements View {
 
     @PostConstruct
     void init(){
-        addComponent(new Label("This is view scoped view"));
+        addComponent(new Label("This is viewtest scoped viewtest"));
         addComponent(new Label(greeter.sayHello()));
         addComponent(new Label(viewGreeter.sayHello()));
     }

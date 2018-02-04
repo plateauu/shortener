@@ -1,4 +1,4 @@
-package tech.plateauu.shortener.view;
+package tech.plateauu.shortener.viewtest;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
@@ -10,7 +10,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 @Theme("valo")
-@SpringUI(path = "/start")
+@SpringUI(path = "/test")
 @SpringViewDisplay
 class MyUI extends UI implements ViewDisplay{
 

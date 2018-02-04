@@ -1,4 +1,4 @@
-package tech.plateauu.shortener.view;
+package tech.plateauu.shortener.viewtest;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -17,7 +17,7 @@ class UIScopedView  extends VerticalLayout implements View {
 
     @PostConstruct
     void init(){
-        addComponent(new Label("This is A UI scoped view..."));
+        addComponent(new Label("This is A UI scoped viewtest..."));
     }
 
     @Override

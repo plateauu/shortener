@@ -10,15 +10,15 @@ import java.util.List;
  * Reader URL object component. Mock implementation
  */
 @Service
-class UrlReader {
+public class UrlReader {
 
     private final UrlRepository repository;
 
-    UrlReader(UrlRepository repository) {
+    public UrlReader(UrlRepository repository) {
         this.repository = repository;
     }
 
-    List<Url> findAll() {
+    public List<Url> findAll() {
         return repository.findAll();
     }
 }

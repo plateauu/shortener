@@ -1,4 +1,4 @@
-package tech.plateauu.shortener.view;
+package tech.plateauu.shortener.viewtest;
 
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.ViewScope;
@@ -8,7 +8,7 @@ import com.vaadin.spring.annotation.ViewScope;
 class ViewGreeter {
 
     String sayHello(){
-        return "Hello from a view scoped bean " + toString();
+        return "Hello from a viewtest scoped bean " + toString();
     }
 
 }
