@@ -21,6 +21,7 @@ class MockGridData implements CommandLineRunner {
         repository.save(Url.of("test", "longTest"));
         repository.save(Url.of("testDue", "DuelongTest"));
         repository.save(Url.of("http://some.url", "http://short"));
+        repository.save(Url.of("http://onet.eu", "http://short"));
 
     }
 }

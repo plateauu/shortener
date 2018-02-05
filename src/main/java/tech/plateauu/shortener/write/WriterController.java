@@ -11,7 +11,7 @@ import tech.plateauu.shortener.model.UrlRepository;
  * Controller responsible for add new Urls
  */
 @RestController
-class WriterController {
+public class WriterController {
 
     private final UrlRepository repository;
     private final HttpClient client;
@@ -22,10 +22,11 @@ class WriterController {
         this.client = client;
     }
 
+    //TODO Remove URL object argument list against simple string
     @PostMapping(path = "/add", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    Url addUrl(@RequestBody Url url) {
+    public Url addUrl(@RequestBody Url url) {
         String shortUrl = client.doShort(url.getLongUrl());
         return repository.save(Url.of(shortUrl, url.getLongUrl()));
     }
