@@ -1,9 +1,9 @@
 package tech.plateauu.shortener.view;
 
+import com.google.common.collect.Lists;
 import com.vaadin.data.provider.DataProvider;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
-import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.data.sort.SortDirection;
 import com.vaadin.shared.ui.grid.ColumnResizeMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.spring.annotation.SpringView;
@@ -12,12 +12,15 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import tech.plateauu.shortener.model.Url;
 import tech.plateauu.shortener.read.UrlReader;
 import tech.plateauu.shortener.write.WriterController;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SpringView(name = AllShortcutsView.VIEW_NAME)
 @UIScope
@@ -27,11 +30,13 @@ class AllShortcutsView extends VerticalLayout implements View {
     private static final String ORDER_SORTER = "id";
 
     private final UrlReader reader;
+    private final UrlViewService viewService;
     private final WriterController writer;
 
     @Autowired
-    AllShortcutsView(UrlReader reader, WriterController writer) {
+    AllShortcutsView(UrlReader reader, UrlViewService viewService, WriterController writer) {
         this.reader = reader;
+        this.viewService = viewService;
         this.writer = writer;
     }
 
@@ -53,16 +58,17 @@ class AllShortcutsView extends VerticalLayout implements View {
     private HorizontalLayout configureAddComponent(Grid<Url> grid) {
         final HorizontalLayout layout = new HorizontalLayout();
         layout.setSizeFull();
+        layout.setSpacing(false);
 
         final Label label = new Label("Short new address:");
-        label.setContentMode(ContentMode.TEXT);
 
         final TextArea urlText = new TextArea();
         urlText.setId("text");
-//        urlText.setHeight(1, Unit.CM);
-        urlText.setSizeFull();
+        urlText.setHeight(1, Unit.CM);
+        urlText.setWidth("100%");
 
         final Button addNewButton = new Button("Add new");
+        addNewButton.setWidth("90%");
         addNewButton.addClickListener(e -> {
             writer.addUrl(Url.of(null, urlText.getOptionalValue()
                     .orElseThrow(() -> new IllegalStateException("No Url value added"))));
@@ -73,24 +79,36 @@ class AllShortcutsView extends VerticalLayout implements View {
         layout.addComponent(label);
         layout.addComponent(urlText);
         layout.addComponent(addNewButton);
-        layout.setExpandRatio(label, 0.2f);
-        layout.setExpandRatio(urlText, 1.0f);
-        layout.setExpandRatio(addNewButton, 0.2f);
+        layout.setExpandRatio(label, 1);
+        layout.setExpandRatio(urlText, 3);
+        layout.setExpandRatio(addNewButton, 1);
+        layout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
+        layout.setComponentAlignment(urlText, Alignment.MIDDLE_LEFT);
+        layout.setComponentAlignment(addNewButton, Alignment.MIDDLE_RIGHT);
         return layout;
     }
 
     private void configureGrid(Grid<Url> grid) {
         final List<Url> items = reader.findAll();
-        final ListDataProvider<Url> dataProvider = DataProvider.ofCollection(items);
 
-        dataProvider.addDataProviderListener(l -> {
-            final List<Url> itemsAfterUpdate = reader.findAll();
-            grid.setDataProvider(DataProvider.ofCollection(itemsAfterUpdate));
-            grid.setHeightByRows(itemsAfterUpdate.size());
-            grid.sort(ORDER_SORTER);
-        });
+        DataProvider<Url, Void> dp = DataProvider.fromCallbacks(
+                query -> {
+                    final List<UrlViewService.UrlSort> sordOrders = Lists.newArrayList();
+                    query.getSortOrders().forEach(o ->
+                            sordOrders.add(viewService.createSort(
+                                    o.getSorted(), Objects.equals(o.getDirection(), SortDirection.DESCENDING))
+                            )
+                    );
+                    final int offset = query.getOffset();
+                    final int limit = query.getLimit();
+                    final List<Url> urls = viewService.fetchUrl(offset, limit, sordOrders);
+                    grid.setHeightByRows(urls.size());
+                    return urls.stream();
+                },
+                query -> viewService.urlCount()
+        );
 
-        grid.setDataProvider(dataProvider);
+        grid.setDataProvider(dp);
         grid.setSelectionMode(Grid.SelectionMode.NONE);
         grid.setColumnResizeMode(ColumnResizeMode.SIMPLE);
         grid.setWidth(100, Unit.PERCENTAGE);
@@ -115,7 +133,7 @@ class AllShortcutsView extends VerticalLayout implements View {
             return "<a href='" + longUrl + "' target='_blank'>" + longUrl + "</a>";
         }, new HtmlRenderer())
                 .setId("longUrl")
-                .setCaption("longUrl")
+                .setCaption("Long URL")
                 .setHidable(true)
                 .setResizable(true)
                 .setMinimumWidthFromContent(true);
@@ -125,7 +143,7 @@ class AllShortcutsView extends VerticalLayout implements View {
             return "<a href='" + shortUrl + "' target='_blank'>" + shortUrl + "</a>";
         }, new HtmlRenderer())
                 .setId("shortUrl")
-                .setCaption("shortUrl")
+                .setCaption("Shorted URL")
                 .setHidable(true)
                 .setResizable(true)
                 .setMinimumWidthFromContent(true);
