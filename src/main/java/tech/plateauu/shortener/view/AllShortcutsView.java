@@ -12,13 +12,11 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.HtmlRenderer;
 import com.vaadin.ui.renderers.NumberRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import tech.plateauu.shortener.model.Url;
 import tech.plateauu.shortener.read.UrlReader;
 import tech.plateauu.shortener.write.WriterController;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
