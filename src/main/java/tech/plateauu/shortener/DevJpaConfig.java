@@ -3,7 +3,7 @@ package tech.plateauu.shortener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,12 +24,13 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "tech.plateauu.shortener.model")
-class JpaConfig {
+@Profile(AppProfiles.DEV)
+class DevJpaConfig {
 
     private final Environment env;
 
     @Autowired
-    public JpaConfig(Environment env) {
+    public DevJpaConfig(Environment env) {
         this.env = env;
     }
 
@@ -53,7 +54,6 @@ class JpaConfig {
     }
 
     @Bean
-    @Primary
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl(env.getProperty("spring.datasource.url"));

@@ -1,0 +1,11 @@
+applications:
+- name: shortener-app
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
+  instances: 2
+  random-route: true
+  path: build/libs/shortener-0.0.1-SNAPSHOT.jar
+  services:
+    - shortener-mysql
+  env:
+    DEBUG: "true"
+    SPRING_PROFILES_ACTIVE: cloud,prod

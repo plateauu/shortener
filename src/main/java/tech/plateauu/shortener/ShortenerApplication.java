@@ -9,7 +9,6 @@ public class ShortenerApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder()
-                .properties("surname", "michalak")
                 .bannerMode(Banner.Mode.CONSOLE)
                 .sources(tech.plateauu.shortener.ShortenerApplication.class)
                 .run(args);
