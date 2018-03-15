@@ -3,6 +3,7 @@ package tech.plateauu.shortener.client;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
  * Http client based on spring rest template
  */
 @Slf4j
-public class HttpClient {
+public class HttpClient implements ShortenerHttpClient {
 
     private final static String SHORTEN_URL = "https://www.googleapis.com/urlshortener/v1/url?key=";
     private final static String EXPAND_URL = "https://www.googleapis.com/urlshortener/v1/url?shortUrl=%s&key=%s";
