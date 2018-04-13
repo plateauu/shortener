@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import tech.plateauu.shortener.AppProfiles;
 
 @Configuration
-@Profile(AppProfiles.PROD)
+
 public class HttpClientConfig {
 
     private final Environment env;
@@ -26,8 +26,15 @@ public class HttpClientConfig {
     }
 
     @Bean
+    @Profile(AppProfiles.PROD)
     public ShortenerHttpClient httpClient(RestTemplate restTemplate) {
         return new HttpClient(env.getProperty("google.api.url.shortener.key"), restTemplate);
+    }
+
+    @Bean
+    @Profile(AppProfiles.DEV)
+    public ShortenerHttpClient mockhttpClient() {
+        return new MockHttpClient();
     }
 
 }

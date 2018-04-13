@@ -2,8 +2,10 @@ DROP TABLE IF EXISTS URL;
 
 CREATE TABLE URL(
   id INT IDENTITY PRIMARY KEY NOT NULL,
-  shortUrl VARCHAR2(100),
-  longUrl VARCHAR2(200),
+  shortUrl VARCHAR2(200),
+  longUrl VARCHAR2(400),
   creationDate TIMESTAMP,
-  modificationDate TIMESTAMP
+  modificationDate TIMESTAMP,
+  version INT
 );
+

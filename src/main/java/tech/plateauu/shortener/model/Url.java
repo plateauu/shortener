@@ -3,6 +3,7 @@ package tech.plateauu.shortener.model;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**

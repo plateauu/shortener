@@ -14,7 +14,7 @@ import tech.plateauu.shortener.utils.LocalDateTimeSerializer;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Inheritance
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -35,5 +35,8 @@ class BaseEntity {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @UpdateTimestamp
     private LocalDateTime modificationDate = LocalDateTime.now();
+
+    @Version
+    private int version;
 
 }
