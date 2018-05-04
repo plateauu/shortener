@@ -31,7 +31,7 @@ public class WriterController {
         return repository.save(Url.of(shortUrl, url.getLongUrl()));
     }
 
-    @GetMapping(path = "/check", consumes = "application/json")
+    @GetMapping(path = "/check")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     Url checkUrl(@RequestParam(value = "url") String urlToExpand) {
