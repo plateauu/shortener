@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.8.RELEASE'
+        springBootVersion = '2.0.1.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group = 'tech.plateauu'
 version = '0.0.1-SNAPSHOT'
@@ -36,13 +37,12 @@ ext {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-actuator-docs')
 //	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 //	compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
 //	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 //	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('com.vaadin:vaadin-spring-boot-starter')
+	compile('com.vaadin:vaadin-spring-boot-starter:3.0.0')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
     compile("com.google.guava:guava:${guavaVersion}")
@@ -58,18 +58,13 @@ dependencies {
     testCompile("org.spockframework:spock-core:${spockFrameworkVersion}")
     testCompile("org.spockframework:spock-spring:${spockFrameworkVersion}")
 
+    runtime("org.springframework.boot:spring-boot-properties-migrator")
 //	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 //	testCompile('org.springframework.security:spring-security-test')
 }
 
-dependencyManagement {
-    imports {
-		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
-//		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 compileJava.dependsOn(processResources)
+
 compileJava {
     doLast {
         file("${projectDir}/src/main/groovy").deleteDir()
@@ -95,14 +90,4 @@ sourceSets {
             srcDir 'src/test/resources'
         }
     }
-}
-
-task checkSource {
-    println "src ${sourceSets}"
-    println "src ${sourceSets.namer}"
-    println "src ${sourceSets.asMap}"
-    println "src ${sourceSets.findByName('main').java.sourceDirectories}"
-    println "output ${sourceSets.findByName('main').output.classesDir}"
-    println "src ${sourceSets.findByName('main')?.resources.files}"
-    println "src dirs ${project.getRootProject()}"
 }
