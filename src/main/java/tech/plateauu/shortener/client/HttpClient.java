@@ -1,9 +1,9 @@
 package tech.plateauu.shortener.client;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,7 +31,7 @@ public class HttpClient implements ShortenerHttpClient {
                 .append(APIKey)
                 .toString();
 
-        ResponseEntity<ShortenResponse> response = getPostForShorten(url, longUrl);
+        ResponseEntity<ShortUrlResponse> response = getPostForShorten(url, longUrl);
 
         log.info("Short url status: {}", response.getStatusCodeValue());
         String shortUrl = response.getBody().getId();
@@ -43,58 +43,59 @@ public class HttpClient implements ShortenerHttpClient {
     public String expand(String shortUrl) {
         log.info("Querying for expand url: {}", shortUrl);
         String url = String.format(EXPAND_URL, shortUrl, APIKey);
-        ResponseEntity<ExpandResponse> response = getForExpandResponse(url);
+        ResponseEntity<ExpandedUrlResponse> response = getExpandedUrlResponse(url);
 
         log.info("Expand url status: {}", response.getStatusCodeValue());
-        ExpandResponse body = response.getBody();
+        ExpandedUrlResponse body = response.getBody();
         String longUrl = body.getLongUrl();
 
         log.info("Expanded url for {} is [{}]", shortUrl, longUrl);
         return longUrl;
     }
 
-    private ResponseEntity<ShortenResponse> getPostForShorten(String address, String urlToShort) {
+    private ResponseEntity<ShortUrlResponse> getPostForShorten(String address, String urlToShort) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<ShortenBody> entity = new HttpEntity<>(ShortenBody.of(urlToShort), headers);
-            return restTemplate.exchange(address, HttpMethod.POST, entity, ShortenResponse.class);
+            HttpEntity<ToMakeShortBody> entity = new HttpEntity<>(ToMakeShortBody.of(urlToShort), headers);
+            return restTemplate.exchange(address, HttpMethod.POST, entity, ShortUrlResponse.class);
         } catch (RestClientException exception) {
             throw HttpClientConnectionException.connectionError(urlToShort, exception);
         }
     }
 
-    private ResponseEntity<ExpandResponse> getForExpandResponse(String urlToExpand) {
+    private ResponseEntity<ExpandedUrlResponse> getExpandedUrlResponse(String urlToExpand) {
         try {
-            return restTemplate.getForEntity(urlToExpand, ExpandResponse.class);
+            return restTemplate.getForEntity(urlToExpand, ExpandedUrlResponse.class);
         } catch (RestClientException exception) {
             throw HttpClientConnectionException.connectionError(urlToExpand, exception);
         }
     }
 
-    @Data(staticConstructor = "of")
-    private static class ShortenBody {
+    @Data
+    @AllArgsConstructor(staticName = "of")
+    private static class ToMakeShortBody {
 
-        private final String longUrl;
-
-    }
-
-    @Data(staticConstructor = "of")
-    private static class ShortenResponse {
-
-        private final String longUrl;
-        private final String kind;
-        private final String id;
+        private String longUrl;
 
     }
 
-    @Data(staticConstructor = "of")
-    private static class ExpandResponse {
+    @Data
+    private static class ShortUrlResponse {
 
-        private final String longUrl;
-        private final String kind;
-        private final String id;
-        private final String status;
+        private String longUrl;
+        private String kind;
+        private String id;
+
+    }
+
+    @Data
+    private static class ExpandedUrlResponse {
+
+        private String longUrl;
+        private String kind;
+        private String id;
+        private String status;
 
     }
 
