@@ -25,7 +25,6 @@ repositories {
 
 ext {
     spockFrameworkVersion = '1.1-groovy-2.4'
-    groovyVersion = '2.4.12'
     guavaVersion = '23.4-jre'
     hibernateVersion = "5.2.4.Final"
     vavrVersion = '0.9.0'
@@ -38,7 +37,6 @@ dependencies {
 //	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 //	compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-//	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 //	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('com.vaadin:vaadin-spring-boot-starter:3.0.0')
     compile('org.springframework.boot:spring-boot-starter-web')
@@ -56,7 +54,10 @@ dependencies {
     testCompile("org.spockframework:spock-core:${spockFrameworkVersion}")
     testCompile("org.spockframework:spock-spring:${spockFrameworkVersion}")
 
-//	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '2.0.1.RELEASE', ext: 'pom'
+    compile group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: '2.0.1.RELEASE', ext: 'pom'
+
+
 //	testCompile('org.springframework.security:spring-security-test')
 }
 
