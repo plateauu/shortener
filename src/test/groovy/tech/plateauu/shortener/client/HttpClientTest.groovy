@@ -2,10 +2,7 @@ package tech.plateauu.shortener.client
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.test.web.client.match.MockRestRequestMatchers
-import org.springframework.test.web.client.response.MockRestResponseCreators
 import org.springframework.web.client.RestTemplate
 import spock.lang.Shared
 import tech.plateauu.shortener.SpringContextTest
@@ -54,7 +51,6 @@ class HttpClientTest extends SpringContextTest {
 
         and:
         shortUrl == SHORT_URL
-
     }
 
     def "should send get request to expand url"() {

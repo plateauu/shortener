@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 import tech.plateauu.shortener.AppProfiles;
 
 @Configuration
-
 public class HttpClientConfig {
 
     private final Environment env;

@@ -30,6 +30,7 @@ class MainUI extends UI implements ViewDisplay {
         layout.setSizeFull();
         setContent(layout);
 
+
         CssLayout bar = new CssLayout();
         bar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         bar.addComponent(createButton(ALL_SHORTCUTS_BUTTON, AllShortcutsView.VIEW_NAME));

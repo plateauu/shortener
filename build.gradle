@@ -37,7 +37,7 @@ dependencies {
 //	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 //	compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-//	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('com.vaadin:vaadin-spring-boot-starter:3.0.0')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.hibernate:hibernate-core")
@@ -58,7 +58,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: '2.0.1.RELEASE', ext: 'pom'
 
 
-//	testCompile('org.springframework.security:spring-security-test')
+	testCompile('org.springframework.security:spring-security-test')
 }
 
 compileJava.dependsOn(processResources)
